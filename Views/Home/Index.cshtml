@@ -1,0 +1,42 @@
+﻿@model List<GestorTareas.Models.TodoTask>
+@{
+    ViewData["Title"] = "Tareas";
+}
+
+<div class="task-container">
+    <h2>Gestor de Tareas Personales</h2>
+
+    <form asp-action="AddTask" method="post" class="add-task-form mb-4">
+        <div class="input-group">
+            <input type="text" name="description" class="form-control" placeholder="Nueva tarea..." required>
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary">Agregar</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="task-list">
+        @foreach (var task in Model)
+        {
+            <div class="task-item d-flex align-items-center p-2 border-bottom">
+                <form method="post" action="/Home/CompleteTask" class="me-2">
+                    <input type="hidden" name="id" value="@task.Id">
+                    <button type="submit" class="btn btn-link p-0">
+                        <i class="fas fa-@(task.IsCompleted ? "check-circle text-success" : "circle")"></i>
+                    </button>
+                </form>
+
+                <span class="task-text flex-grow-1 @(task.IsCompleted ? "text-decoration-line-through text-muted" : "")">
+                    @task.Description
+                </span>
+
+                <form method="post" action="/Home/DeleteTask">
+                    <input type="hidden" name="id" value="@task.Id">
+                    <button type="submit" class="btn btn-link text-danger p-0">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </form>
+            </div>
+        }
+    </div>
+</div>

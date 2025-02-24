@@ -1,0 +1,88 @@
+﻿@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="login-container">
+    <h2>Iniciar Sesión</h2>
+
+    @if (ViewBag.Error != null)
+    {
+        <p class="error-message">@ViewBag.Error</p>
+    }
+
+    <form method="post" action="/Home/Login">
+        <div class="input-group">
+            <label>Usuario:</label>
+            <input type="text" name="username" required />
+        </div>
+
+        <div class="input-group">
+            <label>Contraseña:</label>
+            <input type="password" name="password" required />
+        </div>
+
+        <button type="submit" class="login-button">Iniciar Sesión</button>
+    </form>
+</div>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .login-container {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        width: 300px;
+        text-align: center;
+    }
+
+    .error-message {
+        color: red;
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+
+    .input-group {
+        margin-bottom: 15px;
+        text-align: left;
+    }
+
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+
+    .login-button {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        background-color: #007BFF;
+        color: white;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+
+        .login-button:hover {
+            background-color: #0056b3;
+        }
+</style>
