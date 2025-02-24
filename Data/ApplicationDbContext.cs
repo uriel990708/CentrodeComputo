@@ -1,8 +1,7 @@
 ﻿using GestorTareas.Models;
 using Microsoft.EntityFrameworkCore;
-using GestorTareas.Models; // Reemplaza YourProjectName con el nombre de tu proyecto
 
-namespace GestorTareas.Data // Reemplaza YourProjectName con el nombre de tu proyecto
+namespace GestorTareas.Data
 {
     public class ApplicationDbContext : DbContext
     {
@@ -11,13 +10,20 @@ namespace GestorTareas.Data // Reemplaza YourProjectName con el nombre de tu pro
         {
         }
 
-        // Renombrar la propiedad Tasks a TodoTasks para evitar ambigüedad
         public DbSet<TodoTask> TodoTasks { get; set; }
         public DbSet<User> User { get; set; }
+        public DbSet<Folder> Folders { get; set; } // ✅ Nueva tabla para carpetas
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Seed user data
+            // ✅ Relación: Una carpeta puede tener muchas tareas
+            modelBuilder.Entity<TodoTask>()
+                .HasOne(t => t.Folder)
+                .WithMany(f => f.Tasks)
+                .HasForeignKey(t => t.FolderId)
+                .OnDelete(DeleteBehavior.Cascade); // Si se borra una carpeta, sus tareas también se eliminan
+
+            // ✅ Seed inicial de usuarios
             modelBuilder.Entity<User>().HasData(
                 new User
                 {

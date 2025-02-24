@@ -59,12 +59,16 @@ namespace GestorTareas.Controllers
                 return RedirectToAction("Login");
 
             var tasks = _context.TodoTasks.ToList();
+            var folders = _context.Folders.ToList(); // Obtener carpetas
+
+            ViewBag.Folders = folders;
             return View(tasks);
         }
 
+
         // ✅ Agregar tareas
         [HttpPost]
-        public IActionResult AddTask(string description)
+        public IActionResult AddTask(string description, int? folderId)
         {
             if (!User.Identity.IsAuthenticated)
                 return RedirectToAction("Login");
@@ -75,7 +79,8 @@ namespace GestorTareas.Controllers
                 {
                     Description = description,
                     CreatedDate = DateTime.Now,
-                    IsCompleted = false
+                    IsCompleted = false,
+                    FolderId = folderId // Asociar la tarea con una carpeta si se proporciona
                 };
 
                 _context.TodoTasks.Add(todoTask);
@@ -84,6 +89,7 @@ namespace GestorTareas.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+
 
         // ✅ Completar tarea
         [HttpPost]
